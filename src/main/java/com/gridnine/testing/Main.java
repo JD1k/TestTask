@@ -9,13 +9,14 @@ import static com.gridnine.testing.FlightBuilder.createFlights;
 
 public class Main {
     public static void main(String[] args) {
-    System.out.println(DepartureBeforeNow(createFlights()));
-    System.out.println(ArrivalBeforeDeparture(createFlights()));
+    System.out.println(departurebeforenow(createFlights()));
+    System.out.println(arrivalbeforedeparture(createFlights()));
+    System.out.println(groundtimeexceededfilter(createFlights()));
 
     }
 
 
-    private static List<Flight> DepartureBeforeNow (List<Flight> flights) {
+    private static List<Flight> departurebeforenow (List<Flight> flights) {
         return flights.stream()
                 .filter(flight -> flight.getSegments().stream()
                         .allMatch(segment -> segment.getDepartureDate().isAfter(LocalDateTime.now())))
@@ -23,14 +24,14 @@ public class Main {
     }
 
 
-    private static List<Flight> ArrivalBeforeDeparture (List<Flight> flights){
+    private static List<Flight> arrivalbeforedeparture (List<Flight> flights){
         return flights.stream()
                 .filter(flight -> flight.getSegments().stream()
                         .allMatch(segment -> segment.getArrivalDate().isAfter(segment.getDepartureDate())))
                 .collect(Collectors.toList());
     }
 
-    private static List<Flight>  GroundTimeExceededFilter (List<Flight> flights) {
+    private static List<Flight>  groundtimeexceededfilter (List<Flight> flights) {
         final Duration twoHours = Duration.ofHours(2); // Две часа продолжительность
 
         return flights.stream()
